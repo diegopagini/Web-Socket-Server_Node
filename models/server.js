@@ -17,6 +17,8 @@ export class Server {
 		this.middlewares();
 		// Routes
 		this.routes();
+		// Sockets
+		this.sockets();
 	}
 
 	/**
@@ -32,6 +34,17 @@ export class Server {
 	 * Routes for the server.
 	 */
 	routes() {}
+
+	/**
+	 * Sockets configuration.
+	 */
+	sockets() {
+		this.io.on('connection', (socket) => {
+			console.log('Client connected', socket.id);
+
+			socket.on('disconnect', () => console.log('Client disconnected', socket.id));
+		});
+	}
 
 	/**
 	 * To start de server.
