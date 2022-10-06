@@ -1,11 +1,15 @@
 /** @format */
 import cors from 'cors';
 import express from 'express';
+import { createServer } from 'http';
+import { Server as Socket } from 'socket.io';
 
 export class Server {
 	constructor() {
 		this.app = express();
 		this.port = process.env.PORT;
+		this.server = createServer(this.app);
+		this.io = new Socket(this.server); // Socket.io - Sockets Server
 
 		this.paths = {};
 
@@ -33,7 +37,8 @@ export class Server {
 	 * To start de server.
 	 */
 	listen() {
-		this.app.listen(this.port, () => {
+		// Socket server.
+		this.server.listen(this.port, () => {
 			console.log(`server running in port: ${this.port}`);
 		});
 	}
