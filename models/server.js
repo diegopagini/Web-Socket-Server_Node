@@ -4,6 +4,8 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server as Socket } from 'socket.io';
 
+import { socketController } from '../sockets/controller.js';
+
 export class Server {
 	constructor() {
 		this.app = express();
@@ -39,27 +41,7 @@ export class Server {
 	 * Sockets configuration.
 	 */
 	sockets() {
-		this.io.on('connection', (socket) => {
-			console.log('Client connected', socket.id);
-
-			// Listen a custom event:
-			socket.on(
-				'send-msg', // needs to be the same name that is used to emit.
-				(payload, callback) => {
-					// "payload" is the data sent from the frontend.
-					// the callback is received from the client.
-					console.log(`from the browser: ${payload}`);
-
-					// this.io.emit to send to all clients:
-					// this.io.emit('send-new-msg', `From server: ${payload.msg}`);
-
-					const id = 123456;
-					callback(id); // This callback is going to send info only to that client. Not all.
-				}
-			);
-
-			socket.on('disconnect', () => console.log('Client disconnected', socket.id));
-		});
+		this.io.on('connection', socketController);
 	}
 
 	/**
