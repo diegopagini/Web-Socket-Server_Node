@@ -38,3 +38,7 @@ listen() {
     console.log(`server running in port: ${this.port}`);
   });
 }
+
+# controller
+
+socket.broadcast // To emit to all clients.
