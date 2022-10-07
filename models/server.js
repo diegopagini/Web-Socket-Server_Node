@@ -45,9 +45,16 @@ export class Server {
 			// Listen a custom event:
 			socket.on(
 				'send-msg', // needs to be the same name that is used to emit.
-				(payload) => {
-					// "payload" is the data sent from the frontend
-					console.log(payload);
+				(payload, callback) => {
+					// "payload" is the data sent from the frontend.
+					// the callback is received from the client.
+					console.log(`from the browser: ${payload}`);
+
+					// this.io.emit to send to all clients:
+					// this.io.emit('send-new-msg', `From server: ${payload.msg}`);
+
+					const id = 123456;
+					callback(id); // This callback is going to send info only to that client. Not all.
 				}
 			);
 

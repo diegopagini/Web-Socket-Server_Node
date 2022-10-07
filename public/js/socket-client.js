@@ -29,6 +29,14 @@ socket.on('disconnect', () => {
 });
 
 /**
+ * To listen a custom event from the server with sockets.
+ */
+socket.on('send-new-msg', (payload) => {
+	// 'send-new-msg' is the name of the event.
+	console.log({ payload });
+});
+
+/**
  * Custom event.
  */
 btnSend.addEventListener('click', () => {
@@ -42,6 +50,10 @@ btnSend.addEventListener('click', () => {
 	// "emit" is used to create a custom event. "on" is to listen that event.
 	socket.emit(
 		'send-msg', // "send-msg" is the name of the event.
-		payload // payload is the data to send.
+		payload, // payload is the data to send.
+		(id) => {
+			// The third argument is a callback
+			console.log(`From server: `, id);
+		}
 	);
 });
